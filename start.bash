@@ -26,4 +26,5 @@ if [[ -f "$OVERRIDE/$CONFIG" ]]; then
   ln -s "$OVERRIDE/$CONFIG" "$CONFIG"
 fi
 
-exec haproxy -f /etc/haproxy/haproxy.cfg -p "$PIDFILE"
+haproxy -f /etc/haproxy/haproxy.cfg -p "$PIDFILE" &
+exec python servicerouter.py --listening http://0.0.0.0:$PORT0 -m http://master.mesos:8080
