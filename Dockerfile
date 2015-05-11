@@ -14,7 +14,7 @@ RUN \
   apt-get install -y haproxy=1.5.3-1~ubuntu14.04.1 && \
   sed -i 's/^ENABLED=.*/ENABLED=1/' /etc/default/haproxy && \
   rm -rf /var/lib/apt/lists/*
-
+  
 # Add files.
 ADD haproxy.cfg /etc/haproxy/haproxy.cfg
 ADD start.bash /haproxy-start
@@ -24,6 +24,10 @@ VOLUME ["/haproxy-override"]
 
 # Define working directory.
 WORKDIR /etc/haproxy
+
+# Install servicerouter
+RUN apt-get install -y wget && \
+  wget https://raw.githubusercontent.com/mesosphere/marathon/master/bin/servicerouter.py
 
 # Define default command.
 CMD ["bash", "/haproxy-start"]
